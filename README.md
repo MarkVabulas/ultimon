@@ -48,7 +48,7 @@ Until we get a real installer/gui configurator:
   2. Run the command `start_server.bat`.  This uses sane defaults for the software, and also tells it to use the current example `index.html` as the client.
 4. In a browser, navigate to `http://localhost:5779`  (Done!)
 
-If you would prefer to run the LibreHardwareMonitor version (keep in mind we might not yet have a client which displays the metrics), then change `aida64` inside start_server.bat to `lhm`. You will also need to place the files "LibreHardwareMonitorLib.dll", "LibreHardwareMonitorLib.xml", and "HidSharp.dll" from your LibreHardwareMonitor installation into the folder with the `start_server.bat`.  An alternative would be adding your LibreHardwareMonitor installation directory to your path.
+If you would prefer to run the LibreHardwareMonitor version (keep in mind we might not yet have a client which displays the metrics), then change `aida64` inside start_server.bat to `lhm`. You will also need to place the files "LibreHardwareMonitorLib.dll", "LibreHardwareMonitorLib.xml", and "HidSharp.dll" from your LibreHardwareMonitor installation into the folder with the `start_server.bat`.  An alternative would be adding your LibreHardwareMonitor installation directory to your path.  It's also *VERY IMPORTANT* that if you grab the dll's out of a download from your browser, you need to right-click on them and "Unblock" in the properties window, or the software won't be able to load them.
 It's important to note that running the LibreHardwareMonitor and HWiNFO64 versions both require permissions elevation to admin in order to read the sensor data/acess the shared memory.
 If you want more information on how to run/configure the software, you can ask with `--help` on the command line.
 

@@ -17,7 +17,6 @@ from watchdog.events import FileSystemEventHandler
 from Sources.BaseSourceInterface import BaseSourceInterface
 from Sources.SourceAida64 import SourceAida64
 from Sources.SourceHWiNFO64 import SourceHWiNFO64
-from Sources.SourceLibreHardwareMonitor import SourceLibreHardwareMonitor
 
 from Server.ServerSettings import ServerSettings
 from Server.ServerModule import ServerModule
@@ -99,6 +98,7 @@ async def main():
 		case 'aida64':
 			data_source = SourceAida64()
 		case 'lhm':
+			from Sources.SourceLibreHardwareMonitor import SourceLibreHardwareMonitor
 			data_source = SourceLibreHardwareMonitor()
 		case 'hwinfo64':
 			data_source = SourceHWiNFO64()
