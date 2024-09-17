@@ -185,3 +185,7 @@ cython_debug/
 .cache
 .eslintcache
 .cspellcache
+
+LibreHardwareMonitorLib.dll
+LibreHardwareMonitorLib.xml
+HidSharp.dll
