@@ -54,7 +54,8 @@ If you want more information on how to run/configure the software, you can ask w
 
 ## Editing 
 
-If you decide to make changes to the `index.html` inside Client\src, you can either run `npm run release` or for live-watching edits, `npm run watch`.  If you are making edits while the Python Server is running, and the Python server detects the changes, then it will notify the browsers and have the browser refresh toget the newest html file.
+If you decide to make changes to the `index.html` inside Client\src, start by running `npm install`; then, you can either run `npm run release` or for live-watching edits, `npm run watch`.  If you are making edits while the Python Server is running, and the Python server detects the changes, then it will notify the browsers and have the browser refresh toget the newest html file.
+
 In a typical scenario, the only things that need to be modified from the current state, for effectively ANY changes, are the `index.html`, `style.css` and any associated image files.
 
 For changing the `index.html` page, the "id" attribute of each tag is what is used for where to send the data.  The class defines what sort of operation exists on it.  Because of a limitation of html, if you want to have the same value in multiple places, you must add a suffix to the name such as _label or _123 to the end, so it can find all instances of that sensor value.

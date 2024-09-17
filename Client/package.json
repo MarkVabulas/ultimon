@@ -1,14 +1,22 @@
+
 {
   "name": "Ultimate Sensor Monitor Client",
+  "author": "Mark Vabulas",
+  "license": "GNU GPL v3.0",
+  "description": "",
   "version": "0.0.1",
   "main": "index.js",
   "files": [
     "src/",
-    "build/",
     "dist/"
   ],
+  "scripts": {
+    "development": "webpack --mode=development",
+    "release": "webpack --mode=production",
+    "watch": "npm-watch"
+  },
   "watch": {
-    "release": {
+    "development": {
       "patterns": [
         "*"
       ],
@@ -17,22 +25,9 @@
       "quiet": false
     }
   },
-  "scripts": {
-    "build": "webpack --mode=development --env stage=compile",
-    "bundle": "webpack --mode=development --env stage=bundle",
-    "release": "npm run build && npm run bundle",
-    "watch": "npm-watch"
-  },
-  "author": "Mark Vabulas",
-  "license": "",
-  "description": "",
   "dependencies": {
     "css-loader": "^7.1.2",
-    "style-loader": "^4.0.0",
-    "file-loader": "^6.2.0",
     "html-bundler-webpack-plugin": "^3.17.1",
-    "html-inline-script-webpack-plugin": "^3.2.1",
-    "html-webpack-plugin": "^5.6.0",
     "jquery": "^3.7.1",
     "npm-watch": "^0.13.0",
     "webpack": "^5.94.0",
