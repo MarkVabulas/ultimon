@@ -1,0 +1,25 @@
+body
+{
+    background-color: rgb(0, 0, 0);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+    padding:0;
+    margin:0;
+}
+
+html *
+{
+    position: absolute;
+    font-family: 'Arial';
+}
+
+span canvas img
+{
+    position: absolute;
+}
+
+img
+{
+    position: absolute;
+}

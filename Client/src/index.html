@@ -1,0 +1,309 @@
+<!--
+Originally sourced but then extensively modified from:
+	https://github.com/Sensor-Panels/WigiDash/tree/main
+
+	Re-li
+
+MIT License
+
+Copyright (c) 2024 001
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-->
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<meta name="viewport" content="width=device-width" />
+	</head>
+	<body style="z-index: -15; position: relative;">
+		<div style="z-index: -15; position: relative;"></div>
+			<img style="left:51px; top:130px;" src="LargeRectangleBG.png">
+			<img style="left:51px; top:29px;" src="Clock-BG.png">
+			<img style="left:54px; top:179px;" src="GraphMediumBG.png">
+			<img style="left:54px; top:270px;" src="GraphMediumBG.png">
+			<img style="left:54px; top:361px;" src="GraphMediumBG.png">
+			<img style="left:54px; top:451px;" src="GraphMediumBG.png">
+			<img style="left:54px; top:541px;" src="GraphMediumBG.png">
+			<img style="left:328px; top:29px;" src="LabelsBG.png">
+			<img style="left:345px; top:50px;" src="Nvidia_Logo.png">
+			<img style="left:332px; top:36px;" src="LabelsFG.png">
+			<img style="left:328px; top:130px;" src="GraphLargeMainBG.png">
+			<img style="left:350px; top:191px;" src="GPU.png">
+			<img style="left:425px; top:146px;" src="GraphLargeBG.png">
+			<img style="left:421px; top:146px;" src="GPU&GPU_Glass.png">
+			<img style="left:331px; top:300px;" src="GraphWideBG.png">
+			<img style="left:328px; top:370px;" src="GraphLargeMainBG.png">
+			<img style="left:322px; top:364px;" src="DriveLabelsAndHighlights.png">
+			<img style="left:690px; top:29px;" src="LabelsBG.png">
+			<img style="left:705px; top:50px;" src="Intel_Logo.png">
+			<img style="left:693px; top:36px;" src="LabelsFG.png">
+			<img style="left:690px; top:130px;" src="GraphLargeMainBG.png">
+			<img style="left:786px; top:146px;" src="GraphLargeBG.png">
+			<img style="left:711px; top:185px;" src="CPU.png">
+			<img style="left:782px; top:146px;" src="GPU&GPU_Glass.png">
+			<img style="left:692px; top:300px;" src="GraphWideBG.png">
+			<img style="left:690px; top:370px;" src="GraphLargeMainBG.png">
+			<img style="left:691px; top:412px;" src="GraphCircleBG.png">
+			<img style="left:688px; top:411px;" src="Glass_Circle_Outer.png">
+			<img style="left:861px; top:412px;" src="GraphCircleBG.png">
+			<img style="left:858px; top:411px;" src="Glass_Circle_Outer.png">
+		</div>
+
+		<div style="z-index: 0; position: relative;">
+			<span class="label" id="STIME" style="left:71px; top:43px; position:absolute; font-size:44pt; color:#00B300; font-family:Digital-7 Mono"></span>
+			<span class="label" id="SDATE" style="left:132px; top:96px; font-size:14pt; color:#979797;"></span>
+
+			<span class="label" id="Label45" style="left:400px; top:39px; font-size:20pt; color:#00B300">Aorus 1080 Ti</span>
+			<span class="label" id="SGPU1BUSTYP" style="left:400px; top:68px; font-size:8pt; color:#808080;"></span>
+
+			<span class="label" id="Label101" style="left:790px; top:39px; font-size:20pt; color:#0080C0">Corei9-14900KF</span>
+			<span class="label" id="SMOBONAME" style="left:790px; top:67px; font-size:8pt; color:#808080"></span>
+
+			<span class="label" id="Label7" style="left:58px; top:144px; font-size:28pt; color:#808080; vertical-align: baseline;">LAN</span>
+			<span class="label" id="Label8" style="left:135px; top:149px; font-size:10pt; color:#808080;">KB/s</span>
+			<span class="label" id="SNIC2DLRATE_label" style="left:140px; width:160px; top:144px; font-size:10pt; color:#00B300; text-align: end;" data-format="Up : {} KB/s"></span>
+			<span class="label" id="SNIC2ULRATE_label" style="left:140px; width:160px; top:162px; font-size:10pt; color:#ff2727; text-align: end;" data-format="Down : {} KB/s"></span>
+			<canvas class="line_graph" id="SNIC2DLRATE_canvas" width="253px;" height="50px;" style="left:54px; top:179px;" data-linewidth="1" data-graphcolor="#00B300" data-min="0" data-max="125000" data-showvalue="false" data-showscale="false"></canvas>
+			<canvas class="line_graph" id="SNIC2ULRATE_canvas" width="253px;" height="50px;" style="left:54px; top:179px;" data-linewidth="1" data-graphcolor="#ff2727" data-min="0" data-max="125000" data-showvalue="false" data-showscale="false"></canvas>
+
+			<span class="label" id="Label25" style="left:58px; top:235px; font-size:28pt; color:#c5ff18; vertical-align: baseline;">MOBO°</span>
+			<span class="label" id="Label26" style="left:200px; top:258px; font-size:8pt; color:#c5ff18">PSU:</span>
+			<span class="label" id="FPSU" style="left:140px; top:254px; width:160px; font-size:10pt; color:#c5ff18; text-align: end;" data-format="{} RPM"></span>
+			<canvas class="line_graph" id="TMOBO" width="253px;" height="50px;" style="left:54px; top:270px;" data-linewidth="1" data-graphcolor="#c5ff18" data-min="25" data-max="90" data-showscale="true" data-showvalue="true"></canvas>
+
+			<span class="label" id="Label25" style="left:58px; top:327px; font-size:28pt; color:#00B300; vertical-align: baseline;">GPU°</span>
+			<span class="label" id="FGPU1" style="left:140px; top:345px; width:160px; font-size:10pt; color:#00B300; text-align: end;" data-format="{} RPM"></span>
+			<canvas class="line_graph" id="TGPU1HOT_canvas" width="253px;" height="50px;" style="left:54px; top:361px;" data-linewidth="1" data-graphcolor="#00B300" data-min="25" data-max="90" data-showscale="true" data-showvalue="true"></canvas>
+
+			<span class="label" id="Label34" style="left:58px; top:418px; font-size:28pt; color:#0080FF; vertical-align: baseline;">CPU°</span>
+			<span class="label" id="FCPU" style="left:140px; top:437px; width:160px; font-size:10pt; color:#0080FF; text-align: end;" data-format="{} RPM"></span>
+			<canvas class="line_graph" id="TCPU" width="253px;" height="50px;" style="left:54px; top:453px;" data-linewidth="1" data-graphcolor="#0080FF" data-min="25" data-max="90" data-showscale="true" data-showvalue="true"></canvas>
+
+			<span class="label" id="Label39" style="left:58px; top:507px; font-size:28pt; color:#f25900; vertical-align: baseline;">RAM</span>
+			<span class="label" id="Label40" style="left:140px; top:512px; font-size:10pt; color:#f25900">%</span>
+			<span class="label" id="SDRAMFSB" style="left:0; width:298px; top:510px; font-size:10pt; color:#f25900; text-align: end;"></span>
+			<span class="label" id="SMEMTIM" style="left:0; width:299px; top:528px; font-size:10pt; color:#f25900; text-align: end;"></span>
+			<canvas class="line_graph" id="SMEMUTI_graph" width="253px;" height="50px;" style="left:54px; top:542px;" data-linewidth="1" data-graphcolor="#f25900" data-min="0" data-max="100" data-showscale="true" data-showvalue="true"></canvas>
+
+			<span class="label" id="Label50" style="left:340px; top:130px; font-size:28pt; color:#808080;">GPU</span>
+			<span class="label" id="PGPU1TDPP" style="left:342px; top:244px; font-size:12pt; color:#808080; font-weight: bold;" data-format="TDP : {}%"></span>
+			<span class="label" id="PGPU1" style="left:346px; top:264px; font-size:12pt; color:#C8C800; font-weight: bold;" data-format="{} W"></span>
+			<span class="label" id="TGPU1HOT_label" style="left:597px; top:148px; color:#00B300; font-size:24pt;"></span>
+			<span class="label" id="Label57" style="left:633px; top:155px; font-size:16pt; color:#808080; font-style: italic;">°C</span>
+			<span class="label" id="SGPU1UTI_label" style="left:0; width:585px; top:140px; font-size:96pt; color:#00B300; text-align: end;"></span>
+			<span class="label" id="Label59" style="left:585px; top:215px; font-size:36pt; color:#808080; font-style: italic;">%</span>
+			<canvas class="line_graph" id="SGPU1UTI_graph" width="341px;" height="50px;" style="left:331px; top:301px;" data-linewidth="2" data-graphcolor="#00B300" data-min="0" data-max="100" data-showscale="false"></canvas>
+			
+			<span class="label" id="BasicLAbel" style="left:699px; top:130px; font-size:28pt; color:#808080;">CPU</span>
+			<span class="label" id="SCPUCLK" style="left:700px; top:243px; font-size:12pt; color:#808080; font-weight: bold;" data-format="{} MHz"></span>
+			<span class="label" id="PCPUPKG" style="left:707px; top:264px; font-size:12pt; color:#C8C800; font-weight: bold;" data-format="{} W"></span>
+			<span class="label" id="TCPUPKG" style="left:0; width:989px; top:142px; font-size:24pt; color:#0080C0; text-align: end;"></span>
+			<span class="label" id="Label111" style="left:992px; top:154px; font-size:16pt; color:#808080; font-style: italic;">°C</span>
+			<span class="label" id="SCPUUTI_label" style="left:0; width:945px; top:140px; font-size:96pt; color:#0080C0; text-align: end; "></span>
+			<span class="label" id="Label113" style="left:945px; top:215px; font-size:36pt; color:#808080; font-style: italic">%</span>
+			<canvas class="line_graph" id="SCPUUTI_graph" width="341px;" height="50px;" style="left:693px; top:301px;" data-linewidth="2" data-graphcolor="#0080C0" data-min="0" data-max="100" data-showscale="false"></canvas>
+
+			<span class="label" id="Label66" style="left:345px; top:393px; font-size:16pt; color:#808080">C</span>
+			<span class="label" id="Label67" style="left:345px; top:443px; font-size:16pt; color:#808080">D</span>
+			<span class="label" id="Label68" style="left:347px; top:492px; font-size:16pt; color:#808080">G</span>
+			<span class="label" id="Label69" style="left:346px; top:543px; font-size:16pt; color:#808080">Z</span>
+			<span class="label" id="Label70" style="left:421px; top:372px; font-size:9pt; color:#808080; font-weight: bold; font-style: italic">MB/s</span>
+			<span class="label" id="SDSK1READSPD" style="left:0; width:439px; top:385px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK1WRITESPD" style="left:0; width:439px; top:406px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK2READSPD" style="left:0; width:439px; top:435px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK2WRITESPD" style="left:0; width:439px; top:455px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK3READSPD" style="left:0; width:439px; top:484px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK3WRITESPD" style="left:0; width:439px; top:504px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK4READSPD" style="left:0; width:439px; top:535px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+			<span class="label" id="SDSK4WRITESPD" style="left:0; width:439px; top:555px; font-size:14pt; color:#808080; font-style: italic; text-align: end;"></span>
+
+			<span class="imagepicker" id="SDSK1ACT" style="left:455px; top:395px;">
+				<img src="Idle.png">
+				<img src="Read.png">
+			</span>
+			<span class="imagepicker" id="SDRVCUTI" style="left:478px; top:398px;">
+				<img src="DriveUseageBar_0.png">
+				<img src="DriveUseageBar_1.png">
+				<img src="DriveUseageBar_2.png">
+				<img src="DriveUseageBar_3.png">
+				<img src="DriveUseageBar_4.png">
+				<img src="DriveUseageBar_5.png">
+				<img src="DriveUseageBar_6.png">
+				<img src="DriveUseageBar_7.png">
+				<img src="DriveUseageBar_8.png">
+				<img src="DriveUseageBar_9.png">
+				<img src="DriveUseageBar_10.png">
+				<img src="DriveUseageBar_11.png">
+				<img src="DriveUseageBar_12.png">
+				<img src="DriveUseageBar_13.png">
+				<img src="DriveUseageBar_14.png">
+				<img src="DriveUseageBar_15.png">
+			</span>
+
+			<span class="imagepicker" id="SDSK2ACT" style="left:455px; top:445px;">
+				<img src="Idle.png">
+				<img src="Read.png">
+			</span>
+			<span class="imagepicker" id="SDRVDUTI" style="left:478px; top:448px;">
+				<img src="DriveUseageBar_0.png">
+				<img src="DriveUseageBar_1.png">
+				<img src="DriveUseageBar_2.png">
+				<img src="DriveUseageBar_3.png">
+				<img src="DriveUseageBar_4.png">
+				<img src="DriveUseageBar_5.png">
+				<img src="DriveUseageBar_6.png">
+				<img src="DriveUseageBar_7.png">
+				<img src="DriveUseageBar_8.png">
+				<img src="DriveUseageBar_9.png">
+				<img src="DriveUseageBar_10.png">
+				<img src="DriveUseageBar_11.png">
+				<img src="DriveUseageBar_12.png">
+				<img src="DriveUseageBar_13.png">
+				<img src="DriveUseageBar_14.png">
+				<img src="DriveUseageBar_15.png">
+			</span>
+
+			<span class="imagepicker" id="SDSK3ACT" style="left:455px; top:495px;">
+				<img src="Idle.png">
+				<img src="Read.png">
+			</span>
+			<span class="imagepicker" id="SDRVGUTI" style="left:478px; top:498px;">
+				<img src="DriveUseageBar_0.png">
+				<img src="DriveUseageBar_1.png">
+				<img src="DriveUseageBar_2.png">
+				<img src="DriveUseageBar_3.png">
+				<img src="DriveUseageBar_4.png">
+				<img src="DriveUseageBar_5.png">
+				<img src="DriveUseageBar_6.png">
+				<img src="DriveUseageBar_7.png">
+				<img src="DriveUseageBar_8.png">
+				<img src="DriveUseageBar_9.png">
+				<img src="DriveUseageBar_10.png">
+				<img src="DriveUseageBar_11.png">
+				<img src="DriveUseageBar_12.png">
+				<img src="DriveUseageBar_13.png">
+				<img src="DriveUseageBar_14.png">
+				<img src="DriveUseageBar_15.png">
+			</span>
+
+			<span class="imagepicker" id="SDSK4ACT" style="left:455px; top:545px;">
+				<img src="Idle.png">
+				<img src="Read.png">
+			</span>
+			<span class="imagepicker" id="SDRVSUTI" style="left:478px; top:548px;">
+				<img src="DriveUseageBar_0.png">
+				<img src="DriveUseageBar_1.png">
+				<img src="DriveUseageBar_2.png">
+				<img src="DriveUseageBar_3.png">
+				<img src="DriveUseageBar_4.png">
+				<img src="DriveUseageBar_5.png">
+				<img src="DriveUseageBar_6.png">
+				<img src="DriveUseageBar_7.png">
+				<img src="DriveUseageBar_8.png">
+				<img src="DriveUseageBar_9.png">
+				<img src="DriveUseageBar_10.png">
+				<img src="DriveUseageBar_11.png">
+				<img src="DriveUseageBar_12.png">
+				<img src="DriveUseageBar_13.png">
+				<img src="DriveUseageBar_14.png">
+				<img src="DriveUseageBar_15.png">
+			</span>
+
+			<span class="label" id="SDRVCFREESPC" style="left:0; width:658px; top:396px; font-size:9pt; color:#808080; text-align: end;" data-format="Free : {} GB"></span>
+			<span class="label" id="SDRVCUSEDSPC" style="left:0; width:658px; top:409px; font-size:9pt; color:#808080; text-align: end;" data-format="Used : {} GB"></span>
+			<span class="label" id="SDRVDFREESPC" style="left:0; width:658px; top:446px; font-size:9pt; color:#808080; text-align: end;" data-format="Free : {} GB"></span>
+			<span class="label" id="SDRVDUSEDSPC" style="left:0; width:658px; top:459px; font-size:9pt; color:#808080; text-align: end;" data-format="Used : {} GB"></span>
+			<span class="label" id="SDRVGFREESPC" style="left:0; width:658px; top:495px; font-size:9pt; color:#808080; text-align: end;" data-format="Free : {} GB"></span>
+			<span class="label" id="SDRVGUSEDSPC" style="left:0; width:658px; top:508px; font-size:9pt; color:#808080; text-align: end;" data-format="Used : {} GB"></span>
+			<span class="label" id="SDRVSFREESPC" style="left:0; width:658px; top:546px; font-size:9pt; color:#808080; text-align: end;" data-format="Free : {} GB"></span>
+			<span class="label" id="SDRVSUSEDSPC" style="left:0; width:658px; top:559px; font-size:9pt; color:#808080; text-align: end;" data-format="Used : {} GB"></span>
+
+			<span class="imagepicker" id="SVMEMUSAGE" style="left:703px; top:426px; width:0px;">
+				<img src="CircleGaugeGreen_0.png">
+				<img src="CircleGaugeGreen_1.png">
+				<img src="CircleGaugeGreen_2.png">
+				<img src="CircleGaugeGreen_3.png">
+				<img src="CircleGaugeGreen_4.png">
+				<img src="CircleGaugeGreen_5.png">
+				<img src="CircleGaugeGreen_6.png">
+				<img src="CircleGaugeGreen_7.png">
+				<img src="CircleGaugeGreen_8.png">
+				<img src="CircleGaugeGreen_9.png">
+				<img src="CircleGaugeGreen_10.png">
+				<img src="CircleGaugeGreen_11.png">
+				<img src="CircleGaugeGreen_12.png">
+				<img src="CircleGaugeGreen_13.png">
+				<img src="CircleGaugeGreen_14.png">
+				<img src="CircleGaugeGreen_15.png">
+			</span>
+			<span class="label" id="Label121" style="left:753px; top:377px; font-size:12pt; color:#808080">VRAM</span>
+			<span class="label" id="SGPU1MEMCLK" style="left:0; width:777px; top:395px; font-size:12pt; color:#808000; text-align: end;"></span>
+			<span class="label" id="Label123" style="left:782px; top:398px; font-size:10pt; color:#808080; font-style: italic">MHz</span>
+			<span class="label" id="Label125" style="left:768px; top:458px; font-size:8pt; color:#00B300">Free:</span>
+			<span class="label" id="SFREEVMEM" style="left:703px; width:152px; top:472px; font-size:14pt; color:#00B300; text-align: center;" data-format="{} MB"></span>
+			<span class="label" id="Label127" style="left:766px; top:498px; font-size:8pt; color:#C0C0C0">Used:</span>
+			<span class="label" id="SUSEDVMEM" style="left:703px; width:152px; top:513px; font-size:14pt; color:#C0C0C0; text-align: center;" data-format="{} MB"></span>
+			
+			<span class="imagepicker" id="SMEMUTI_picker" style="left:873px; top:426px; width:0px;">
+				<img src="CircleGaugeBlue_0.png">
+				<img src="CircleGaugeBlue_1.png">
+				<img src="CircleGaugeBlue_2.png">
+				<img src="CircleGaugeBlue_3.png">
+				<img src="CircleGaugeBlue_4.png">
+				<img src="CircleGaugeBlue_5.png">
+				<img src="CircleGaugeBlue_6.png">
+				<img src="CircleGaugeBlue_7.png">
+				<img src="CircleGaugeBlue_8.png">
+				<img src="CircleGaugeBlue_9.png">
+				<img src="CircleGaugeBlue_10.png">
+				<img src="CircleGaugeBlue_11.png">
+				<img src="CircleGaugeBlue_12.png">
+				<img src="CircleGaugeBlue_13.png">
+				<img src="CircleGaugeBlue_14.png">
+				<img src="CircleGaugeBlue_15.png">
+			</span>
+			<span class="label" id="Label133" style="left:930px; top:377px; font-size:12pt; color:#808080">RAM</span>
+			<span class="label" id="SMEMCLK" style="left:0; width:947px; top:395px; font-size:12pt; color:#808000; text-align: end;"></span>
+			<span class="label" id="Label135" style="left:952px; top:398px; font-size:10pt; color:#808080; font-style: italic">MHz</span>
+			<span class="label" id="Label137" style="left:938px; top:458px; font-size:8pt; color:#0080C0; ">Free:</span>
+			<span class="label" id="SFREEMEM" style="left:873; width:152px; top:472px; font-size:16pt; color:#0080C0; text-align: center;" data-format="{} MB"></span>
+			<span class="label" id="Label139" style="left:936px; top:498px; font-size:8pt; color:#C0C0C0">Used:</span>
+			<span class="label" id="SUSEDMEM" style="left:873; width:152px; top:513px; font-size:14pt; color:#C0C0C0; text-align: center;" data-format="{} MB"></span>
+		</div>
+			
+		<div style="z-index: 15; position: relative;"></div>
+			<img style="left:60px; top:42px;" src="Clock-FG.png">
+			<img style="left:55px; top:179px;" src="GraphMediumFG.png">
+			<img style="left:55px; top:271px;" src="GraphMediumFG.png">
+			<img style="left:55px; top:361px;" src="GraphMediumFG.png">
+			<img style="left:55px; top:451px;" src="GraphMediumFG.png">
+			<img style="left:55px; top:542px;" src="GraphMediumFG.png">
+			<img style="left:332px; top:297px;" src="GraphWideFG.png">
+			<img style="left:692px; top:297px;" src="GraphWideFG.png">
+			<img style="left:716px; top:439px;" src="Glass_Circle_Inner.png">
+			<img style="left:886px; top:439px;" src="Glass_Circle_Inner.png">
+		</div>
+
+	</body>
+</html>

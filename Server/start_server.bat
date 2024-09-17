@@ -1,0 +1,1 @@
+cls && python3 UltimateSensorMonitor.py --static_folder ../Client/dist --source aida64 --with_server 1 --can_elevate 1 --incremental 1

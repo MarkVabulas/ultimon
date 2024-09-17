@@ -1,0 +1,6 @@
+aiohttp==3.10.5
+aiohttp_index==0.1
+pywin32==306
+pythonnet==3.0.3
+elevate==0.1.3
+watchdog==5.20.2
