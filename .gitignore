@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -163,7 +162,7 @@ cython_debug/
 
 # Here's the parts for webpack
 
-/node_modules
+**/node_modules
 /test/js
 /test/browsertest/js
 /test/fixtures/temp-*
@@ -186,4 +185,3 @@ cython_debug/
 .cache
 .eslintcache
 .cspellcache
-package-lock.json
