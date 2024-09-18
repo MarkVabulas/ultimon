@@ -1,50 +1,18 @@
 const { DrawGraphDefault } = require('./DrawGraphDefault.js');
-const WebSocketClient = require('./WebSocketClient.js');
 
-//setInterval(() => {window.location = window.location.href;}, 5000);
-
-function getHeatmapColor(value, min, max) {
-  function HSVtoRGB(h, s, v) {
-    var r, g, b, i, f, p, q, t;
-    if (arguments.length === 1) {
-        s = h.s, v = h.v, h = h.h;
-    }
-    i = Math.floor(h * 6);
-    f = h * 6 - i;
-    p = v * (1 - s);
-    q = v * (1 - f * s);
-    t = v * (1 - (1 - f) * s);
-    switch (i % 6) {
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
-    }
-    return {
-        r: Math.round(r * 255),
-        g: Math.round(g * 255),
-        b: Math.round(b * 255)
-    };
-  }
-  var p = (value-min) / (max-min);
-  var rgb = HSVtoRGB(1.0-(p/100.0*0.85), 1.0, 1.0);
-  return 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
-}
+import WebSocketClient from './WebSocketClient.js';
+import MapTilerScreensaver from './MapTilerScreensaver.js';
 
 var graph_history = {}
 var graph_offset = {}
 
 $(function() {
-  /*
-  $('span').on('data_update', function( event, data ) {
-    var span = $( this );
-    span.text(data.value);
-    //span.animate({ 'color': getHeatmapColor(data.value, 0, 100) }, 1000);
-  });
-  */
- 
+  const mapTilerConfig = {
+    apiKey: 'oJfCFFR9g2SbLCtLiAVQ',
+    mapUrl: 'https://api.maptiler.com/maps/54ea2e55-d319-42c6-a2c1-1e0fe923fef8/?key=oJfCFFR9g2SbLCtLiAVQ'
+  };
+  var screensaver = new MapTilerScreensaver(mapTilerConfig);
+
   $('toggle').on('data_update', function( event, data ) {
     var toggle = $( this );
     if (data == true) {
@@ -63,9 +31,6 @@ $(function() {
     else {
       label.html(data.value);
     }
-    //label.animate({ 'color': getHeatmapColor(data.value, 0, 100) }, 1000);
-
-    //console.log('updated label ' + this.id + ': ' + data);
   });
 
   $('.imagepicker').on('data_update', function( event, data ) {
@@ -158,8 +123,16 @@ $(function() {
     password: 'UltimateSensorMonitor'
   };
   let sensorClient = new WebSocketClient(serverConfiguration);
-  sensorClient.onConnectionOpen = () => {};
-  sensorClient.onConnectionClose = async () => {};
+  sensorClient.onConnectionOpen = () =>
+  {
+    $('#time-info').hide();
+    $('#live').show();
+  };
+  sensorClient.onConnectionClose = async () =>
+  {
+    $('#live').hide();
+    $('#time-info').show();
+  };
   sensorClient.onConnectionError = message => {};
   sensorClient.onSuggestRefresh = () => {
     console.log('refresh suggested');

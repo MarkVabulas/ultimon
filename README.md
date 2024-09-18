@@ -29,6 +29,7 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [ ] Graph drawing tools need better animation management
 - [x] Ability to custom-add new functionality to the site, with drop-in javascript files
 - [ ] Example client with WebGL rendering showing advanced procedurally generated graphics based on the sensor metrics
+- [x] Implemented an example for how to draw things as background and/or screensavers (currently, uses MapTiler) when the "server" connection is lost
 
 ## Wishlist/To-Do
 

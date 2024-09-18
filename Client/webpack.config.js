@@ -52,7 +52,7 @@ module.exports = (env, options) => {
     ],
     resolve: { 
       alias: { 
-        jquery: "jquery/src/jquery",
+        jquery: 'jquery/src/jquery',
         '@images': path.join(__dirname, 'src/images'),
       } 
     },

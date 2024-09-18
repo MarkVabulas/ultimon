@@ -53,6 +53,17 @@ class WebSocketClient {
     return this._id;
   }
 
+  _retry_connection() {
+    console.log('retrying connection...');
+    setTimeout(() => {
+      try {
+        this.connect();
+      }
+      catch(ignore) {
+      }
+    }, 5000);
+  }
+
   connect() {
     this._ws = new WebSocket(this._serverConfig.url);
     
@@ -73,8 +84,7 @@ class WebSocketClient {
       //console.log('Server disconnect event: ' + event.type);
       this._onConnectionClose();
 
-      console.log('retrying connection...');
-      setTimeout((function(self) { self.connect(); })(this), 5000);
+      this._retry_connection();
     }
 
     this._ws.onerror = (event) => {
@@ -129,4 +139,4 @@ class WebSocketClient {
   }
 }
 
-module.exports = WebSocketClient;
+export default WebSocketClient;
