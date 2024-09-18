@@ -1,5 +1,11 @@
 # UltimateSensorMonitor
 
+## Example
+
+This is what it looks like on my machine:  (I adopted/modified the MIT-licensed sensor from [GSkill Wigidash](https://github.com/Sensor-Panels/WigiDash) to make it, THANKS!)
+
+![Screenshot of the example Aida64 client on my Raspberry PI monitor @ 1920x1080](screenshot.png)
+
 ## Overiew
 
 UltimateSensorMonitor is a solution designed to fix the inacessible gap between all of your hardware sensors and their respective monitors/destinations.  This software, build from the ground up, is designed to make it easy to get whatever sensor data you want, and access it anywhere you want.  Running HWiNFO64 and want to see the stats on your phone?  Done.  Running Aida64 and hate having the inability to modify the layouts?  Fixed.  Wishing you had audio or video or animation in your client-side visualization?  Trivially easy now.
@@ -26,6 +32,7 @@ This suite is designed with a server in python, and expecting to feed data to a 
 
 ## Wishlist/To-Do
 
+- [ ] A way to gather the statistics from multiple sources simultaneously
 - [ ] Proper wiki for understanding the different parts/capabilities and how to configure/control/edit/use them
 - [ ] Easier way to view the possible values, so we can make editing easier
 - [ ] Github actions to automatically package the clients, and the Python-based server, into a distributable with an exe+files
@@ -61,12 +68,6 @@ In a typical scenario, the only things that need to be modified from the current
 For changing the `index.html` page, the "id" attribute of each tag is what is used for where to send the data.  The class defines what sort of operation exists on it.  Because of a limitation of html, if you want to have the same value in multiple places, you must add a suffix to the name such as _label or _123 to the end, so it can find all instances of that sensor value.
 Luckily, a large quantity of the sample sensor id's and how to use them is included right in the example `index.html`.
 If you want to know what sensor values you have access to, it's a lot more complex to access, at the moment.  The best source is looking at the data coming in to WebSocketClient.js, inside onmessage.  The field `data.data` inside `_ws.onmessage` will contain the current update of information.  The server typically sends incremental updates of only values that have changed, but if you restart the server with `--incremental 0` in start_server.bat, then you can see all of the possible values.  I recommend a good json viewer, such as JSTool inside Notepad++.
-
-## Example
-
-This is what it looks like on my machine:  (I adopted/modified the MIT-licensed sensor from [GSkill Wigidash](https://github.com/Sensor-Panels/WigiDash) to make it, THANKS!)
-
-![Screenshot of the example Aida64 client on my Raspberry PI monitor @ 1920x1080](screenshot.png)
 
 ## Development Ethos
 
