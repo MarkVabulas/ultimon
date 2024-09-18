@@ -30,6 +30,7 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [x] Ability to custom-add new functionality to the site, with drop-in javascript files
 - [ ] Example client with WebGL rendering showing advanced procedurally generated graphics based on the sensor metrics
 - [x] Implemented an example for how to draw things as background and/or screensavers (currently, uses MapTiler) when the "server" connection is lost
+- [x] Implemented a WebGL example for an animated procedural background (Based on the famous example WebGL Fluid Simulation)
 
 ## Wishlist/To-Do
 
@@ -46,6 +47,23 @@ This suite is designed with a server in python, and expecting to feed data to a 
 The wishlist is not a dream-level pi-in-the-sky list of things to do.  I already have extensive experience with user interfaces.  I have written WebRTC-based software for the browser, embedded devices, including the signaling software middleware.
 
 ## Installation
+
+# Easy
+
+There are a handful of very useful batch files now to help get things setup and running.  Eventually I'll roll them up into a github Action so that there's a definite "release" which is just an executable and a few html files.
+
+0. Download the repository (click the green drop-down above, and selected "Download Zip") into a fresh folder on your computer.
+1. Right click on "step 1" and choose "Run as Administrator" from the Windows context menu.  This step is going to download Node.js and Python3, and then set them up on your computer so you can easily build the distribution.  These are very standard pieces of software used for writing software, feel free to look them up.
+2. If you are planning on using the LibreHardwareMonitor version of the sensors (for example, you don't want to install Aida64 or HWiNFO64), then just run normally (admin-mode not required) the "step 2" batch file.  This file downloads the current release of LibreHardwwareMonitor into a zip file in the Scratch folder, then unzips it.  Last, it copies the necessary files into the "Deploy" folder for running LibreHardwareMonitor.
+3. In order to actually have a program and a webpage, we need to compile/build them.  Run the "step 3" batch file. This one will download the additional Node.js components we need and then re-compile them all in to the index.html file which is the actual webpage for viewing.  This webpage output will be placed in the "Deploy/static" folder. The second part will download the additional Python libraries we need, and then bundle them all together into an executable file and put it in the "Deploy" folder, as well.
+4. There are 3 options for running the software:
+  - If you are running Aida64 with "Shared Memory" access turned on, then you can double-click "step 4 - run for aida64" and it will start serving the generated index.html from the static folder.  This is a very easy option.
+  - If you are running HWiNFO64, with the "Shared Memory" access turned on, then right click on "step 4 - run for hwinfo64" and choose "Run as Administrator".  This needs administrator access to touch the shared memory for HWiNFO64, since it is ALSO running in Administrator mode.  (Note: the current index.html doesn't actually use any of the sensor identifiers that are coming from HWiNFO64, this is on the to-do list)
+  - If you want to run the LibreHardwareMonitor backend, we have to do a preliminary step before running the batch file.  We need to "unblock" the downloads, since Windows doesn't want us to run software downloaded from the internet.  Inside the "Deploy" folder, right-click on each of "HidSharp" and "LibreHardwareMonitorLib" select properties.  At the bottom of the Properties page, there could be an "Unblock" checkbox.  Check this box and hit "Okay".  After that, in the main folder, right-click on "step 4 - run for lhm" and choose "Run as Administrator".  This should start the server and start serving the index.html in the Deploy folder.
+
+If you want to make changes to the website you can find the base version inside the Client\src folder.  Any modifications you make can be updated by re-running the step 3 and step 4 above.  The Python-based server is setup such that it will detect changes to the index.html and automatically try to refresh and users that are connected.  This means that you can try re-running Step 3 without stopping the server, and the results will be placed back in the correct folder for you, and updated on the clients.
+
+# Advanced
 
 Until we get a real installer/gui configurator:
 0. For the quick/dirty test, make sure you're running Aida64 (with "Shared Memory" access turned on) on your computer
