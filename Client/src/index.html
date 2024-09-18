@@ -40,13 +40,16 @@ SOFTWARE.
 		<div id="disconnected" style="z-index: -1000; left:2vw; width:96vw; top:2vh; bottom: 2vh; height:96h;">
 			<div id="weather_map" style="width:100%; height:100%;"></div>
 			<div id="time-info">
-				<div id="variable-name">Wind</div>
+				<div id="variable-name"></div>
 				<div id="pointer-data"></div>
-				<span id="time-text">Unknown Time Date</span>
+				<span id="time-text"></span>
 			</div>
 		</div>
 
-		<div id="live" style="left:0%; width:100%; top:0%; bottom: 0%; height: 100%; background-color: transparent;">
+		<div id="live" style="pointer-events: none; left:0%; width:100%; top:0%; bottom: 0%; height: 100%; background-color: transparent;">
+			
+			<canvas id="fluid_sim" style="z-index: -500; width:100%; height:100%;"></canvas>
+
 			<div style="z-index: -15; position: relative;">
 				<img style="left:51px; top:130px;" src="@images/LargeRectangleBG.png">
 				<img style="left:51px; top:29px;" src="@images/Clock-BG.png">

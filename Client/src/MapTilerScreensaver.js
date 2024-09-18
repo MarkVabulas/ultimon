@@ -21,11 +21,13 @@ class MapTilerScreensaver {
 			  "value": "value",
 			  "units": " mm"
 			},
+			/*
 			"pressure": {
 			  "layer": null,
 			  "value": "value",
 			  "units": " hPa"
 			},
+			*/
 			"radar": {
 			  "layer": null,
 			  "value": "value",
@@ -72,7 +74,7 @@ class MapTilerScreensaver {
 	}
 	
 	playAnimation(weatherLayer) {
-		weatherLayer.animateByFactor(3600);
+		weatherLayer.animateByFactor(3*60*60);
 		this._isPlaying = true;
 	}
 
@@ -152,11 +154,13 @@ class MapTilerScreensaver {
 			case 'precipitation':
 				weatherLayer = new PrecipitationLayer();
 			break;
+			/*
 			case 'pressure':
 				weatherLayer = new PressureLayer({
 					opacity: 0.8
 				});
 			break;
+			*/
 			case 'radar':
 				weatherLayer = new RadarLayer({
 					opacity: 0.8

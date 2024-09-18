@@ -2,16 +2,17 @@ const { DrawGraphDefault } = require('./DrawGraphDefault.js');
 
 import WebSocketClient from './WebSocketClient.js';
 import MapTilerScreensaver from './MapTilerScreensaver.js';
+import {} from './WebGLFluidBursts.js';
 
 var graph_history = {}
 var graph_offset = {}
+var screensaver = null;
 
 $(function() {
-  const mapTilerConfig = {
+  screensaver = new MapTilerScreensaver({
     apiKey: 'oJfCFFR9g2SbLCtLiAVQ',
     mapUrl: 'https://api.maptiler.com/maps/54ea2e55-d319-42c6-a2c1-1e0fe923fef8/?key=oJfCFFR9g2SbLCtLiAVQ'
-  };
-  var screensaver = new MapTilerScreensaver(mapTilerConfig);
+  });
 
   $('toggle').on('data_update', function( event, data ) {
     var toggle = $( this );
@@ -125,13 +126,13 @@ $(function() {
   let sensorClient = new WebSocketClient(serverConfiguration);
   sensorClient.onConnectionOpen = () =>
   {
-    $('#time-info').hide();
+    $('#disconnected').hide();
     $('#live').show();
   };
   sensorClient.onConnectionClose = async () =>
   {
     $('#live').hide();
-    $('#time-info').show();
+    $('#disconnected').show();
   };
   sensorClient.onConnectionError = message => {};
   sensorClient.onSuggestRefresh = () => {
