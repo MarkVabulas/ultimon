@@ -74,7 +74,7 @@ class MapTilerScreensaver {
 	}
 	
 	playAnimation(weatherLayer) {
-		weatherLayer.animateByFactor(3*60*60);
+		weatherLayer.animateByFactor(60*60);
 		this._isPlaying = true;
 	}
 
@@ -111,7 +111,7 @@ class MapTilerScreensaver {
 	changeWeatherLayer(type) {
 		setTimeout(() => { 
 			this.nextMap();
-		}, 10000);
+		}, 10000 + Math.random() * 10000);
 	  
 		console.log(`changing map from [${this._activeLayer}] to [${type}]`);
 
@@ -200,20 +200,44 @@ class MapTilerScreensaver {
 		return weatherLayer;
 	}
 
+	parseMillisecondsIntoReadableTime(milliseconds){
+		var sign = (milliseconds < 0) ? '-' : '+';
+		milliseconds = Math.abs(milliseconds);
+
+		//Get hours from milliseconds
+		var hours = milliseconds / (1000*60*60);
+		var absoluteHours = Math.floor(hours);
+		var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+	  
+		//Get remainder from hours and convert to minutes
+		var minutes = (hours - absoluteHours) * 60;
+		var absoluteMinutes = Math.floor(minutes);
+		var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+	  
+		return sign + h + 'h ' + m + 'm';
+	  }
+
 	// Update the date time display
 	refreshTime() {
 	  	const weatherLayer = this._weatherLayers[this._activeLayer]?.layer;
 	 	if (weatherLayer) {
 			this._currentTime = weatherLayer.getAnimationTime();
 			const d = weatherLayer.getAnimationTimeDate();
+			const timeDelta = this.parseMillisecondsIntoReadableTime(d - Date.now());
+			$('#time-delta-text').text(timeDelta);
 			$('#time-text').text(d.toUTCString());
 			if (d < Date.now()) {
-			 	$('#time-text').css('color', 'rgb(90, 90, 90, 90)');
+			 	$('#time-delta-text').css('color', 'rgb(96, 96, 96)');
 			} else {
-			  	$('#time-text').css('color', 'white');
+			  	$('#time-delta-text').css('color', 'rgb(192, 192, 192)');
 			}
 	  	}
 	}
 }
+
+const screensaver = new MapTilerScreensaver({
+    apiKey: 'oJfCFFR9g2SbLCtLiAVQ',
+    mapUrl: 'https://api.maptiler.com/maps/54ea2e55-d319-42c6-a2c1-1e0fe923fef8/?key=oJfCFFR9g2SbLCtLiAVQ'
+  });
 
 export default MapTilerScreensaver;

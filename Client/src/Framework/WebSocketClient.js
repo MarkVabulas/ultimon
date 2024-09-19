@@ -139,4 +139,48 @@ class WebSocketClient {
   }
 }
 
+$(function() {
+  const serverConfiguration = {
+    url: 'ws://'+location.host+'/sensor_data',
+    data: {}, // Client custom data
+    password: 'UltimateSensorMonitor'
+  };
+  let sensorClient = new WebSocketClient(serverConfiguration);
+  sensorClient.onConnectionOpen = () =>
+  {
+    $('#disconnected').hide();
+    $('#live').show();
+  };
+  sensorClient.onConnectionClose = async () =>
+  {
+    $('#live').hide();
+    $('#disconnected').show();
+  };
+  sensorClient.onConnectionError = message => {};
+  sensorClient.onSuggestRefresh = () => {
+    console.log('refresh suggested');
+    
+    window.location = window.location.href;
+  }
+  sensorClient.onSensorDataChange = (data) => {
+    //console.log('onSensorDataChange data = ' + data);
+
+    for (const [id, item_data] of Object.entries(data)) {
+      //console.log(`${id} : ${JSON.stringify(item_data)}`); // Log the key and its corresponding value
+
+      var exact_matches = $('#' + id);
+      if (exact_matches.length > 0) {
+        exact_matches.trigger('data_update', item_data);
+      } else {
+        const duplicated_matches = `[id*="${id}"]`;
+        $(duplicated_matches).trigger('data_update', item_data);
+      }
+    }
+  };
+
+  (async function() {
+    await sensorClient.connect();
+  })();
+});
+
 export default WebSocketClient;

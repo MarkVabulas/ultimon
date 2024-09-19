@@ -1,5 +1,5 @@
 
-var DrawArcGaugeDefault = function (dst, thickness, startangle, perc, bgcolor, color, fill, fillcolor, showtext, text, fontfamily, fontcolor, fontsize, fontstyle, fontvariant, fontweight) {
+function ArcGuage(dst, thickness, startangle, perc, bgcolor, color, fill, fillcolor, showtext, text, fontfamily, fontcolor, fontsize, fontstyle, fontvariant, fontweight) {
     var canvas = document.getElementById(dst);
     var ctx = canvas.getContext("2d");
     var W = canvas.width;
@@ -41,6 +41,8 @@ var DrawArcGaugeDefault = function (dst, thickness, startangle, perc, bgcolor, c
     }
 };
 
-module.exports = {
-    DrawArcGaugeDefault
-};
+$('.arc_guage').on('data_update', function( event, data ) {
+    // Not implemented yet
+    var arc_guage = $( this );
+    arc_guage.text(data.value);
+});
