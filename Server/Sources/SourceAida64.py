@@ -10,8 +10,12 @@ class SourceAida64(HTMLParser, BaseSourceInterface):
 	def __init__(self):
 		super(SourceAida64, self).__init__()
 
-		# Ensure our connection to the shared memory from Aida64
-		self._aida64Memory = shared_memory.SharedMemory(name='AIDA64_SensorValues', create=False)
+		try:
+			# Ensure our connection to the shared memory from Aida64
+			self._aida64Memory = shared_memory.SharedMemory(name='AIDA64_SensorValues', create=False)
+		except Exception as ex:
+			print('An exception of type {0} occurred. Arguments:\n\t{1!r}'.format(type(ex).__name__, ex.args))
+			print('It seems like Aida64 isn\'t running!!!')
 
 		# Initialize our variables
 		self._changedValues : Dict[str, Dict[str, str]] = {} 

@@ -187,5 +187,5 @@ LibreHardwareMonitorLib.xml
 HidSharp.dll
 
 # For our bootstrapper, ignore:
-/Scratch
+/.Scratch
 /Deploy

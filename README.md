@@ -31,6 +31,8 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [ ] Example client with WebGL rendering showing advanced procedurally generated graphics based on the sensor metrics
 - [x] Implemented an example for how to draw things as background and/or screensavers (currently, uses MapTiler) when the "server" connection is lost
 - [x] Implemented a WebGL example for an animated procedural background (Based on the famous example WebGL Fluid Simulation)
+- [x] User interface to make configuration and development/installation easier (things like helping with Node.JS/Python, and command-line arguments)
+- [ ] Passing variables statically into the index.html through the ini file, so we can have things like API-keys on a more intuitive basis/access
 
 ## Wishlist/To-Do
 
@@ -38,7 +40,6 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [ ] Proper wiki for understanding the different parts/capabilities and how to configure/control/edit/use them
 - [ ] Easier way to view the possible values, so we can make editing easier
 - [ ] Github actions to automatically package the clients, and the Python-based server, into a distributable with an exe+files
-- [ ] User interface to make configuration and development/installation easier (things like helping with webpack/python, and command-line arguments)
 - [ ] Easy integration for metrics from multiple USM servers (I have multiple computers, I'd like to see all of their stats on my Raspberry PI at the same time)
 - [ ] Changing between multiple pages being served (for those who want more than 1 page)
 - [ ] LAN-local WebRTC streaming between any server's screen (in case people want a small PIP, for example, on their sensor client)
@@ -50,22 +51,40 @@ The wishlist is not a dream-level pi-in-the-sky list of things to do.  I already
 
 # Easy
 
-There are a handful of very useful batch files now to help get things setup and running.  Eventually I'll roll them up into a github Action so that there's a definite "release" which is just an executable and a few html files.
+__Welcome to Version 2.0 of the user-interface.__
+######Eventually I'll roll them up into a github Action so that there's a definite "release" which is just an executable and a few html files.
+
+![Screenshot of the new and improved GUI](gui_interface.png)
 
 0. Download the repository (click the green drop-down above, and selected "Download Zip") into a fresh folder on your computer.
-1. Right click on "step 1" and choose "Run as Administrator" from the Windows context menu.  This step is going to download Node.js and Python3, and then set them up on your computer so you can easily build the distribution.  These are very standard pieces of software used for writing software, feel free to look them up.
-2. If you are planning on using the LibreHardwareMonitor version of the sensors (for example, you don't want to install Aida64 or HWiNFO64), then just run normally (admin-mode not required) the "step 2" batch file.  This file downloads the current release of LibreHardwwareMonitor into a zip file in the Scratch folder, then unzips it.  Last, it copies the necessary files into the "Deploy" folder for running LibreHardwareMonitor.
-3. In order to actually have a program and a webpage, we need to compile/build them.  Run the "step 3" batch file. This one will download the additional Node.js components we need and then re-compile them all in to the index.html file which is the actual webpage for viewing.  This webpage output will be placed in the "Deploy/static" folder. The second part will download the additional Python libraries we need, and then bundle them all together into an executable file and put it in the "Deploy" folder, as well.
-4. There are 3 options for running the software:
-    - If you are running Aida64 with "Shared Memory" access turned on, then you can double-click "step 4 - run for aida64" and it will start serving the generated index.html from the static folder.  This is a very easy option.
-    - If you are running HWiNFO64, with the "Shared Memory" access turned on, then right click on "step 4 - run for hwinfo64" and choose "Run as Administrator".  This needs administrator access to touch the shared memory for HWiNFO64, since it is ALSO running in Administrator mode.  (Note: the current index.html doesn't actually use any of the sensor identifiers that are coming from HWiNFO64, this is on the to-do list)
-    - If you want to run the LibreHardwareMonitor backend, we have to do a preliminary step before running the batch file.  We need to "unblock" the downloads, since Windows doesn't want us to run software downloaded from the internet.  Inside the "Deploy" folder, right-click on each of "HidSharp" and "LibreHardwareMonitorLib" select properties.  At the bottom of the Properties page, there could be an "Unblock" checkbox.  Check this box and hit "Okay".  After that, in the main folder, right-click on "step 4 - run for lhm" and choose "Run as Administrator".  This should start the server and start serving the index.html in the Deploy folder.
+1. In the folder you placed the files in, run "build_gui.bat". This step downloads Python3 if you don't already have it, and then builds the user interface for you, from the sources inside the Server directory.  In the end, you'll have an Executable called "UltimateSensorMonitorGUI.exe" sitting in the folder.  This is what we really want.
+2. Run UltimateSensorMonitorGUI.exe by double clicking on it (or from a terminal, but that's less useful for when you want to run it for long periods of time).
 
-If you want to make changes to the website you can find the base version inside the Client\src folder.  Any modifications you make can be updated by re-running the step 3 and step 4 above.  The Python-based server is setup such that it will detect changes to the index.html and automatically try to refresh and users that are connected.  This means that you can try re-running Step 3 without stopping the server, and the results will be placed back in the correct folder for you, and updated on the clients.
+Yeah, that's the setup.  We did so much better now!  
+
+### How to use the GUI
+
+There are 4 Tabs in total.
+
+- On the first page you can see a basic description and a list of folders where everything is or will be stored
+- On the right is a panel which will show you readouts and progress for various tasks, as well as the status as the server is running.
+- On the second tab, which you can reach by hitting "Next" or clicking on "Install Tools", you can read the descriptions of the various tools to install.  Clicking on the buttons (if they're not greyed out because you already have them installed) will handily install them for you, minimum of fuss.
+- On the third tab (by hitting next), this is where we create the webserver and the client website.  Clicking on each button will build the respective pieces and place them in the correct locations on your computer.  SSL-based encryption certificates are possible to generate in the software if required, but it can cause a headache for configuration in the browsers by having to import them on the client side as well.  It ***does*** have the added benefit of encryption, so *YMMV*.
+- On the last tab, we can see the configuration items for the server.  We should only really be here if all of the other steps have been run first.  If you want to check the status of the various steps, you can access that again in the File menu at the top ("Refresh Components").  The default values are pretty good ones, and should be excellent for your use case.  If you're going to us HWiNFO64 or LibreHardwareMonitor (LMH) then this is the place to change them.  If you've created certificates, you can specify the relevant parts here.  Any changes are live-saved to a file, but you can also click "Save" to make yourself feel better.
+  - To start the server, click "Save and Run" on this pane or at the bottom.  This will also stop/restart a server if you have already clicked to run it before.
+  - To stop the server, click "Stop Server".  You should be able to see the progress of the server on the right-hand pane.
+- To see your client side, open a browser and navigate to `http://localhost:5779` or whatever you set the port number to in the settings.
+
+## After the software is running
+
+The GUI software will minimize (and close!) to the notification bar in the corner.  It is designed to take up 0 processor time, it's just a host for the server and a simple way to be able to start/stop the server as well.  If you want to hard-quit the user interface software, which will also stop the server, you can go to File->"Stop and Quit".  If you still want to run the server (for example, at startup or as a scheduled task), but without using the GUI, once the GUI has setup the software then you can find "UltimateSensorMonitor.exe" inside the `Deploy` folder.  Double-clicking or otherwise running that will load the accompanying "umd.ini" settings file and proceed gracefully.  Secretly, the GUI software is effectively just handling that for you, until I develop a more improved way involving startup tasks etc.
+
+As before, if you want to make changes to the client software while the server is running, you can edit the files inside the Client/src folder. After making changes, click "Build Client HTML" on the third pane again, even if the server is running, and it will live-update connected clients or you can immediately refresh the associated browser.
+
+Feel free to delete the Scratch folder, or even the Deploy folder, since we can just remake them at will in the GUI anyway (nothing in there is assumed to be permanent).
 
 # Advanced
 
-Until we get a real installer/gui configurator:
 0. For the quick/dirty test, make sure you're running Aida64 (with "Shared Memory" access turned on) on your computer
 1. Ensure you have python3 installed on your system
 2. Clone this repository into a folder on your computer
@@ -80,7 +99,7 @@ If you want more information on how to run/configure the software, you can ask w
 
 ## Editing 
 
-If you decide to make changes to the `index.html` inside Client\src, start by running `npm install`; then, you can either run `npm run release` or for live-watching edits, `npm run watch`.  If you are making edits while the Python Server is running, and the Python server detects the changes, then it will notify the browsers and have the browser refresh toget the newest html file.
+If you decide to make changes to the `index.html` inside `Client\src`, start by running `npm install`; then, you can either run `npm run release` or for live-watching edits, `npm run watch`.  If you are making edits while the Python Server is running, and the Python server detects the changes, then it will notify the browsers and have the browser refresh toget the newest html file.
 
 In a typical scenario, the only things that need to be modified from the current state, for effectively ANY changes, are the `index.html`, `style.css` and any associated image files.
 

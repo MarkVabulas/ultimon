@@ -13,7 +13,7 @@ from aiohttp_index import IndexMiddleware
 
 from Server.ServerSettings import ServerSettings
 from Server.WebSocketClientManager import WebSocketClientManager
-from ServerLogger import logger, logging
+from Server.ServerLogger import logger, logging
 
 DISCONNECT_DELAY_S = 1
 INACTIVE_DELAY_S = 5
@@ -32,35 +32,42 @@ async def cors_middleware(request, handler) -> web.StreamResponse:
 	
 class ServerModule:
 	def __init__(self, settings : ServerSettings):
-		self.event_lookup : Dict[str, Callable] = {
-			'connect': self.handle_connection
-		}
+		try:
 
-		self.settings = settings
-		self.web_socket_client_manager = WebSocketClientManager()
-		middlewares_list = [IndexMiddleware(), cors_middleware]
-		self.app = web.Application(middlewares=middlewares_list)
-		
-		# Configure default CORS settings.
-		self.cors = aiohttp_cors.setup(self.app, defaults={
-			"*": aiohttp_cors.ResourceOptions(
-					allow_credentials=False,
-					expose_headers="*",
-					allow_headers="*",
-					max_age=3600,
-				)
-		})
-		
-		# Create route to get iceservers
-		self.app.add_routes([ web.get('/sensor_data', self.web_socket_handler) ])
-		
-		# Configure CORS on all routes.
-		for route in list(self.app.router.routes()):
-			self.cors.add(route)
+			self.event_lookup : Dict[str, Callable] = {
+				'connect': self.handle_connection
+			}
 
-		# Create static route if required
-		if self.settings.static_folder is not None:
-			self.app.add_routes([web.static('/', self.settings.static_folder)])
+			self.settings = settings
+			self.web_socket_client_manager = WebSocketClientManager()
+			middlewares_list = [IndexMiddleware(), cors_middleware]
+			self.app = web.Application(middlewares=middlewares_list)
+			
+			# Configure default CORS settings.
+			self.cors = aiohttp_cors.setup(self.app, defaults={
+				"*": aiohttp_cors.ResourceOptions(
+						allow_credentials=False,
+						expose_headers="*",
+						allow_headers="*",
+						max_age=3600,
+					)
+			})
+			
+			# Create route to get iceservers
+			self.app.add_routes([ web.get('/sensor_data', self.web_socket_handler) ])
+			if hasattr(self.settings, 'static_folder') and self.settings.static_folder is not None and self.settings.static_folder.is_dir():
+				self.app.router.add_static('/', path=str(self.settings.static_folder))
+			
+			# Configure CORS on all routes.
+			for route in list(self.app.router.routes()):
+				self.cors.add(route)
+
+			# Create static route if required
+		#	if self.settings.static_folder is not None:
+		#		self.app.add_routes([web.static('/', )])
+		except Exception as ex:
+			print('An exception of type {0} occurred. Arguments:\n\t{1!r}'.format(type(ex).__name__, ex.args))
+
 	
 	async def authorized(self, client_id : str, data) -> bool:
 		#check authorization password
@@ -76,11 +83,15 @@ class ServerModule:
 	def run_webserver(self):
 		# Run app
 		if self.settings.using_tls:
+			assert(self.settings.certificate is not None)
+			assert(self.settings.key is not None)
+
 			ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-			ssl_context.load_cert_chain(self.settings.certificate, self.settings.key)
-			web.run_app(self.app, port=self.settings.port, ssl_context=ssl_context)
+			ssl_context.verify_mode = ssl.CERT_NONE
+			ssl_context.load_cert_chain(certfile=self.settings.certificate, keyfile=self.settings.key)
+			web.run_app(self.app, port=self.settings.port, ssl_context=ssl_context) # add access_log=logger for more debugging
 		else:
-			web.run_app(self.app, port=self.settings.port)
+			web.run_app(self.app, port=self.settings.port) # add access_log=logger for more debugging
 			
 	async def web_socket_handler(self, request):
 		ws = web.WebSocketResponse()

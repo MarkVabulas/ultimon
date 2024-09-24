@@ -1298,7 +1298,9 @@ function correctDeltaY (delta) {
 }
 
 function generateColor () {
-    let c = HSVtoRGB(290.0/360.0 + (Math.random()-0.5)/15.0, 0.75 + Math.random()/4.0, 0.75 + Math.random()/4.0);
+    let base = (220.0 + Math.random()*60.0)/360.0;
+    let offset = (Math.random() * 30 - 15) / 360.0;
+    let c = HSVtoRGB(base + offset, 0.9 + Math.random()/10.0, 0.3 + Math.random()/3.0);
     c.r *= 0.15;
     c.g *= 0.15;
     c.b *= 0.15;

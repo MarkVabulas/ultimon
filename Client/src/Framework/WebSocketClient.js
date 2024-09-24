@@ -141,7 +141,7 @@ class WebSocketClient {
 
 $(function() {
   const serverConfiguration = {
-    url: 'ws://'+location.host+'/sensor_data',
+    url: '/sensor_data',
     data: {}, // Client custom data
     password: 'UltimateSensorMonitor'
   };

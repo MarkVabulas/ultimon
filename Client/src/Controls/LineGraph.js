@@ -194,57 +194,56 @@ var graph_history = {}
 var graph_offset = {}
 
 $('.line_graph').on('data_update', function( event, data ) {
-var line_graph = $( this );
-line_graph.text(data.value);
+    var line_graph = $( this );
+    line_graph.text(data.value);
 
-if (!(this.id in graph_history)) {
-    graph_history[this.id] = [];
-}
-if (!(this.id in graph_offset)) {
-    graph_offset[this.id] = 22;
-}
+    if (!(this.id in graph_history)) {
+        graph_history[this.id] = [];
+    }
+    if (!(this.id in graph_offset)) {
+        graph_offset[this.id] = 22;
+    }
 
-graph_history[this.id].unshift(data.value);
-if (graph_history[this.id].length > 128)
-    graph_history[this.id].pop();
+    graph_history[this.id].unshift(data.value);
+    if (graph_history[this.id].length > 256)
+        graph_history[this.id].pop();
 
-//console.log('updated graph ' + this.id + ': ' + graph_history[this.id]);
+    //console.log('updated graph ' + this.id + ': ' + graph_history[this.id]);
 
-var linewidth = $(this).data('linewidth');
-if (linewidth=== null) linewidth = 2;
+    var linewidth = $(this).data('linewidth');
+    if (linewidth=== null) linewidth = 2;
 
-var graphcolor = $(this).data('graphcolor');
-if (graphcolor=== null) graphcolor = '#FFFFFF';
+    var graphcolor = $(this).data('graphcolor');
+    if (graphcolor=== null) graphcolor = '#FFFFFF';
 
-var minimum = $(this).data('min');
-if (minimum=== null) minimum = 0;
+    var minimum = $(this).data('min');
+    if (minimum=== null) minimum = 0;
 
-var maximum = $(this).data('max');
-if (maximum=== null) maximum = 100;
+    var maximum = $(this).data('max');
+    if (maximum=== null) maximum = 100;
 
-var showvalue = $(this).data('showvalue');
-if (showvalue === null) showvalue = true;
+    var showvalue = $(this).data('showvalue');
+    if (showvalue === null) showvalue = true;
 
-var showscale = $(this).data('showscale');
-if (showscale === null) showscale = true;
+    var showscale = $(this).data('showscale');
+    if (showscale === null) showscale = true;
 
-LineGraph(
-    this.id, graph_history[this.id], graph_offset[this.id], "LG"
-    , 1, linewidth, this.clientHeight/2-1
-    , minimum, maximum
-    , false
-    , false
-    , false, "#000000"
-    , false, "#666666"
-    , true, "#003C00"
-    , graphcolor
-    , showvalue
-    , showscale, "Segoe UI Variable Small Light", graphcolor, "8pt", "normal", "normal", "normal", false);
+    LineGraph(
+        this.id, graph_history[this.id], graph_offset[this.id], "LG"
+        , 1, linewidth, this.clientHeight/2-1
+        , minimum, maximum
+        , false
+        , false
+        , false, "#000000"
+        , false, "#666666"
+        , true, "#003C00"
+        , graphcolor
+        , showvalue
+        , showscale, "Segoe UI Variable Small Light", graphcolor, "8pt", "normal", "normal", "normal", false);
 
-graph_offset[this.id] -= 1;
-if (graph_offset[this.id] < 0)
-    graph_offset[this.id] = 24 + graph_offset[this.id];
-if (graph_offset[this.id] < 0)
-    graph_offset[this.id] = 22;
-
+    graph_offset[this.id] -= 1;
+    if (graph_offset[this.id] < 0)
+        graph_offset[this.id] = 24 + graph_offset[this.id];
+    if (graph_offset[this.id] < 0)
+        graph_offset[this.id] = 22;
 });
