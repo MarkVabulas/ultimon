@@ -2,9 +2,9 @@
 
 ## Example
 
-This is what it looks like on my machine:  (I adopted/modified the MIT-licensed sensor from [GSkill Wigidash](https://github.com/Sensor-Panels/WigiDash) to make it, THANKS!)
+This is what it looks like on my machine:  (I adopted/modified the MIT-licensed sensor from [GSkill Wigidash](https://github.com/Sensor-Panels/WigiDash) to make it, THANKS!)  It's at 60fps on my sensor panel, just low FPS for the capture.
 
-![Screenshot of the example Aida64 client on my Raspberry PI monitor @ 1920x1080](screenshot.png)
+![GIF capture of the example Aida64 client on my Raspberry PI monitor @ 1920x1080](live_sensor.gif)
 
 ## Overiew
 
@@ -52,6 +52,7 @@ The wishlist is not a dream-level pi-in-the-sky list of things to do.  I already
 # Easy
 
 __Welcome to Version 2.0 of the user-interface.__
+
 ######Eventually I'll roll them up into a github Action so that there's a definite "release" which is just an executable and a few html files.
 
 ![Screenshot of the new and improved GUI](gui_interface.png)
