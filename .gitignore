@@ -189,3 +189,4 @@ HidSharp.dll
 # For our bootstrapper, ignore:
 /.Scratch
 /Deploy
+*.exe
