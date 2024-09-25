@@ -13,7 +13,8 @@ import {} from './Controls/Label.js';
 // The opposite is true upon reconnection
 // Ideally, these javascript files only talk to the html DOM, so we don't even need to add code for them anywhere else
 import {} from './Addons/MapTilerScreensaver.js';
-import {} from './Addons/WebGLFluidBursts.js';
+//import {} from './Addons/WebGLFluidBursts.js';
+import {} from './Addons/AdvancingFronts.js';
 
 $(function() {
     console.log('App is started!');

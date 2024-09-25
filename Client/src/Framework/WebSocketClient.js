@@ -140,6 +140,11 @@ class WebSocketClient {
 }
 
 $(function() {
+  if (window.location.protocol === 'file:') {
+    console.log('Skipping Websocket, we\'re offline');
+    return;
+  }
+
   const serverConfiguration = {
     url: '/sensor_data',
     data: {}, // Client custom data
