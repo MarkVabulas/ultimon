@@ -57,7 +57,13 @@ class AdvancingFronts {
 
 	load()
 	{
-		canvas = document.getElementById('background');
+		if (!document.getElementById('background_canvas')) {
+			let background_canvas = document.createElement('canvas');
+			background_canvas.id = 'background_canvas';
+			document.getElementById('background').appendChild(background_canvas);
+		}
+
+		canvas = document.getElementById('background_canvas');
 		({ gl, ext } = AdvancingFronts.createWebGLContext(canvas));
 		document_width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 		document_height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);

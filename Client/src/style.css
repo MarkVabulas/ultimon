@@ -1,5 +1,17 @@
-body
-{
+html * {
+    position: absolute;
+    font-family: 'Arial';
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
     background-color: rgb(0, 0, 0);
     background-repeat:no-repeat;
     background-attachment:fixed;
@@ -8,60 +20,34 @@ body
     margin:0;
 }
 
-html *
-{
-    position: absolute;
-    font-family: 'Arial';
-}
-
-html
-{
-    height: 100%;
-}
-
-body
-{
-    margin: 0px;
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
-}
-
-span canvas img
-{
+span canvas img {
     position: absolute;
 }
 
-img
-{
+img {
     position: absolute;
 }
 
-#pointer-data {
-    z-index: 1;
-    position: fixed;
-    left: 5vw;
-    bottom: 6%;
-    font-size: 20px;
-    font-weight: 900;
-    margin: 0px 0px 0px 10px;
-    color: rgba(90, 90, 90, 90);
-    text-shadow: 0px 0px 10px #0007;
-    background-color: transparent;
+#background {
+    z-index: -50;
+    position: absolute;
+    left:2%; 
+    width:96%; 
+    top:2%; 
+    height:96%;
 }
 
-#variable-name {
-    z-index: 1;
-    position: fixed;
-    left: 5vw;
-    bottom: 6%;
-    font-size: 22px;
-    font-weight: 600;
-    margin: 0px 0px 0px 10px;
-    color: rgba(90, 90, 90, 90);
-    text-shadow: 0px 0px 10px #0007;
-    text-transform: capitalize;
-    background-color: transparent;
+#background_canvas {
+    position: absolute;
+    left:2%; 
+    width:96%; 
+    top:2%; 
+    height:96%;
+}
+
+#weather_map {
+    width:100%;
+    height:100%;
 }
 
 #time-info {
@@ -81,11 +67,27 @@ img
     padding: 0px;
     background-color: transparent;
 }
+
+#map-type {
+    z-index: 1;
+    position: fixed;
+    left: 5vw;
+    bottom: 6%;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0px 0px 0px 10px;
+    color: rgba(90, 90, 90, 90);
+    text-shadow: 0px 0px 10px #0007;
+    text-transform: capitalize;
+    background-color: transparent;
+}
   
 #time-delta-text {
     font-size: 22px;
     font-weight: 600;
     background-color: transparent;
+    bottom: 10%;
+    text-align: right;
 }
   
 #time-text {

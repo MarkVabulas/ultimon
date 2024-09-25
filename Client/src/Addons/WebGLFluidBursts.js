@@ -27,7 +27,13 @@ SOFTWARE.
 
 // Simulation section
 
-const canvas = document.getElementById('background');
+if (!document.getElementById('background_canvas')) {
+    let background_canvas = document.createElement('canvas');
+    background_canvas.id = 'background_canvas';
+    document.getElementById('background').appendChild(background_canvas);
+}
+
+const canvas = document.getElementById('background_canvas');
 resizeCanvas();
 
 let config = {

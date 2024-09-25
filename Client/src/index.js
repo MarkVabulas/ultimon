@@ -12,7 +12,7 @@ import {} from './Controls/Label.js';
 // By default, WebSocketClient will hide everything in the "live" when disconnected, and show the "disconnected" div tag.
 // The opposite is true upon reconnection
 // Ideally, these javascript files only talk to the html DOM, so we don't even need to add code for them anywhere else
-import {} from './Addons/MapTilerScreensaver.js';
+//import {} from './Addons/MapTilerScreensaver.js';
 //import {} from './Addons/WebGLFluidBursts.js';
 import {} from './Addons/AdvancingFronts.js';
 

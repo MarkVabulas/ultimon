@@ -29,10 +29,11 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [ ] Graph drawing tools need better animation management
 - [x] Ability to custom-add new functionality to the site, with drop-in javascript files
 - [ ] Example client with WebGL rendering showing advanced procedurally generated graphics based on the sensor metrics
-- [x] Implemented an example for how to draw things as background and/or screensavers (currently, uses MapTiler) when the "server" connection is lost
+- [x] Implemented an example for how to draw things as background and/or screensavers (currently, uses MapTiler)
 - [x] Implemented a WebGL example for an animated procedural background (Based on the famous example WebGL Fluid Simulation)
+- [x] Added another beautiful example background animation based on advancing wavefronts (https://www.cake23.de/traveling-wavefronts-lit-up.html)
 - [x] User interface to make configuration and development/installation easier (things like helping with Node.JS/Python, and command-line arguments)
-- [ ] Passing variables statically into the index.html through the ini file, so we can have things like API-keys on a more intuitive basis/access
+- [x] A user data configuration file, for things like API keys which can be configured without looking through code (For example, MapTiler API key and URL can be configured AND updated this way)
 
 ## Wishlist/To-Do
 
@@ -46,6 +47,8 @@ This suite is designed with a server in python, and expecting to feed data to a 
 - [ ] More uniform method of selecting which metrics we want to put in each place (a lookup table which will convert each type, and name them consistently)
 
 The wishlist is not a dream-level pi-in-the-sky list of things to do.  I already have extensive experience with user interfaces.  I have written WebRTC-based software for the browser, embedded devices, including the signaling software middleware.
+
+![GIF capture of the example Aida64 client on my Raspberry PI monitor @ 1920x1080](live_sensor_aw.gif)
 
 ## Installation
 

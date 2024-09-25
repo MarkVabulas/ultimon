@@ -23,6 +23,7 @@ class WebSocketClient {
     this._onConnectionError = () => {};
     
     this._onSensorDataChange = () => {};
+    this._onUserDataChange = () => {};
   }
 
   set onConnectionOpen(onConnectionOpen) {
@@ -43,6 +44,10 @@ class WebSocketClient {
 
   set onSensorDataChange(onSensorDataChange) {
     this._onSensorDataChange = onSensorDataChange;
+  }
+
+  set onUserDataChange(onUserDataChange) {
+    this._onUserDataChange = onUserDataChange;
   }
 
   get isConnected() {
@@ -105,6 +110,7 @@ class WebSocketClient {
         case 'welcome':                                     this._onWelcome(deep_data);                break;
         case 'suggest-refresh':                             this._onSuggestRefresh();                  break;
         case 'sensor-data':                                 this._onSensorDataChange(deep_data);       break;
+        case 'user-data':                                   this._onUserDataChange(deep_data);         break;
         default:
           console.log(eventName + ', data=' + JSON.stringify(deep_data));
         }
@@ -153,13 +159,11 @@ $(function() {
   let sensorClient = new WebSocketClient(serverConfiguration);
   sensorClient.onConnectionOpen = () =>
   {
-    $('#disconnected').hide();
-    $('#live').show();
+    $('#sensors').show();
   };
   sensorClient.onConnectionClose = async () =>
   {
-    $('#live').hide();
-    $('#disconnected').show();
+    $('#sensors').hide();
   };
   sensorClient.onConnectionError = message => {};
   sensorClient.onSuggestRefresh = () => {
@@ -181,6 +185,9 @@ $(function() {
         $(duplicated_matches).trigger('data_update', item_data);
       }
     }
+  };
+  sensorClient.onUserDataChange = (data) => {
+    jQuery.event.trigger('user_data', data);
   };
 
   (async function() {

@@ -18,6 +18,13 @@ from Server.ServerLogger import logger, logging
 DISCONNECT_DELAY_S = 1
 INACTIVE_DELAY_S = 5
 PING_INTERVAL_S = 10
+
+# coroutine that will start another coroutine after a delay in seconds  (from https://superfastpython.com/asyncio-delayed-task/)
+async def delay(coro, seconds):
+    # suspend for a time limit in seconds
+    await asyncio.sleep(seconds)
+    # execute the other coroutine
+    await coro
 		
 @web.middleware
 async def cors_middleware(request, handler) -> web.StreamResponse:
@@ -42,6 +49,10 @@ class ServerModule:
 			self.web_socket_client_manager = WebSocketClientManager()
 			middlewares_list = [IndexMiddleware(), cors_middleware]
 			self.app = web.Application(middlewares=middlewares_list)
+
+			self.should_update_users = False
+			self.current_user_data = {}
+			asyncio.create_task(self.load_user_data())
 			
 			# Configure default CORS settings.
 			self.cors = aiohttp_cors.setup(self.app, defaults={
@@ -68,6 +79,15 @@ class ServerModule:
 		except Exception as ex:
 			print('An exception of type {0} occurred. Arguments:\n\t{1!r}'.format(type(ex).__name__, ex.args))
 
+	async def load_user_data(self):
+		old_data = self.current_user_data
+		with open('user_data.json') as f:
+			d = json.load(f)
+			self.current_user_data = d
+		
+		if old_data != self.current_user_data:
+			self.should_update_users = True
+		await delay(self.load_user_data(), 30)
 	
 	async def authorized(self, client_id : str, data) -> bool:
 		#check authorization password
@@ -154,7 +174,7 @@ class ServerModule:
 		else:
 			message = {'event': event, 'data': data}
 
-	#	logger.info('event_to_message: %s', message)
+	#	logger.info('event_to_message: %s', json.dumps(message)[:60])
 		return json.dumps(message)
 
 
@@ -167,6 +187,7 @@ class ServerModule:
 		
 		# notify that the user is welcome
 		await self.web_socket_client_manager.send_to(self.event_to_message('welcome', { 'id': client_id }), client_id)
+		await self.web_socket_client_manager.send_to(self.event_to_message('user-data', self.current_user_data), client_id)
 		
 	async def disconnect_delayed(self, client_id : str):
 		await asyncio.sleep(DISCONNECT_DELAY_S)
@@ -176,6 +197,9 @@ class ServerModule:
 		# send the sensor data to everyone
 	#	logger.info('current: send_sensor_update to all')
 		await self.web_socket_client_manager.send_to_all(self.event_to_message('sensor-data', data))
+		if self.should_update_users:
+			self.should_update_users = False
+			await self.web_socket_client_manager.send_to_all(self.event_to_message('user-data', self.current_user_data))
 		
 	async def send_sensor_update_targeted(self, data, client_id):
 		# send the sensor data to everyone

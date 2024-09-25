@@ -3,8 +3,42 @@ import { ColorRamp, TemperatureLayer, PrecipitationLayer, PressureLayer, RadarLa
 
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
+/*
+<div id="mapTiler" style="z-index: -50; left:2%; width:96%; top:2%; height:96%;">
+	<div id="weather_map"></div>
+	<div id="time-info">
+		<div id="map-type"></div>
+		<span id="time-delta-text"></span>
+		<span id="time-text"></span>
+	</div>
+</div>
+*/
+
 class MapTilerScreensaver {
 	constructor(apiConfig) {
+		if (!document.getElementById('weather_map')) {
+			
+			let weather_map = document.createElement('div');
+			weather_map.id = 'weather_map';
+			document.getElementById('background').appendChild(weather_map);
+			
+			let time_info = document.createElement('div');
+			time_info.id = 'time-info';
+			document.getElementById('background').appendChild(time_info);
+			
+			let map_type = document.createElement('div');
+			map_type.id = 'map-type';
+			document.getElementById('time-info').appendChild(map_type);
+			
+			let time_delta_text = document.createElement('span');
+			time_delta_text.id = 'time-delta-text';
+			document.getElementById('time-info').appendChild(time_delta_text);
+			
+			let time_text = document.createElement('span');
+			time_text.id = 'time-text';
+			document.getElementById('time-info').appendChild(time_text);
+		}
+
 		this._apiConfig = apiConfig;
 
 		this._pointerLngLat = null;
@@ -60,17 +94,6 @@ class MapTilerScreensaver {
 			const weatherLayer = this.nextMap();
 			this.playAnimation(weatherLayer);
 		});
-		
-		this._map.on('mouseout', (evt) => {
-			if (evt && evt.originalEvent && !evt.originalEvent.relatedTarget) {
-				$('#pointer-data').text("");
-				this._pointerLngLat = null;
-			}
-		});
-
-		this._map.on('mousemove', (e) => {
-			this.updatePointerValue(e.lngLat);
-		});
 	}
 	
 	playAnimation(weatherLayer) {
@@ -87,25 +110,6 @@ class MapTilerScreensaver {
 		const keys = Object.keys(this._weatherLayers);
 		const rand = Math.floor(Math.random() * keys.length) % keys.length;
 		return this.changeWeatherLayer(keys[rand]);
-	}
-
-
-	updatePointerValue(lngLat) {
-		if (!this._lngLat)
-			return;
-
-		this._pointerLngLat = this._lngLat;
-		const weatherLayer = this._weatherLayers[this._activeLayer]?.layer;
-		const weatherLayerValue = this._weatherLayers[this._activeLayer]?.value;
-		const weatherLayerUnits = this._weatherLayers[this._activeLayer]?.units;
-		if (weatherLayer) {
-			const value = weatherLayer.pickAt(this._lngLat.lng, this._lngLat.lat);
-			if (!value) {
-				$('#pointer-data').text("");
-				return;
-			}
-			$('#pointer-data').text(`${value[weatherLayerValue].toFixed(1)}${weatherLayerUnits}`);
-		}
 	}
 
 	changeWeatherLayer(type) {
@@ -132,7 +136,7 @@ class MapTilerScreensaver {
 				this._map.addLayer(weatherLayer, 'Water');
 			}
 			
-			$("#variable-name").text(this._activeLayer);
+			$("#map-type").text(this._activeLayer);
 			this.changeLayerAnimation(weatherLayer);
 			return weatherLayer;
 		}
@@ -181,7 +185,6 @@ class MapTilerScreensaver {
 		// Called when the animation is progressing
 		weatherLayer.on("tick", event => {
 			this.refreshTime();
-			this.updatePointerValue(this._pointerLngLat);
 		});
 
 		// Called when the time is manually set
@@ -235,9 +238,20 @@ class MapTilerScreensaver {
 	}
 }
 
-const screensaver = new MapTilerScreensaver({
-    apiKey: 'oJfCFFR9g2SbLCtLiAVQ',
-    mapUrl: 'https://api.maptiler.com/maps/54ea2e55-d319-42c6-a2c1-1e0fe923fef8/?key=oJfCFFR9g2SbLCtLiAVQ'
-  });
+var userDataApiKey = '';
+var mapTilerURL = '';
+var mapTiler;
+
+$(document).bind('user_data', (_, data) => {
+	if (userDataApiKey != data['MapTilerAPIKey']) {
+		userDataApiKey = data['MapTilerAPIKey'];
+		mapTilerURL = data['MapTilerURL'];
+
+		mapTiler = new MapTilerScreensaver({
+			apiKey: userDataApiKey,
+			mapUrl: mapTilerURL
+		});
+	}
+});
 
 export default MapTilerScreensaver;
