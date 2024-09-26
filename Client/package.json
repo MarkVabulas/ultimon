@@ -5,7 +5,6 @@
   "license": "GNU GPL v3.0",
   "description": "",
   "version": "0.0.5",
-  "main": "index.js",
   "files": [
     "src/",
     "dist/"

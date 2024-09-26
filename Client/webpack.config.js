@@ -41,8 +41,8 @@ module.exports = (env, options) => {
       new HtmlBundlerPlugin({
         entry: [
           {
-            import: 'src/index.html',
-            filename: 'index.html',
+            import: 'src/aida64.html',
+            filename: 'aida64.html',
           },
         ],
         js: { inline: true, },

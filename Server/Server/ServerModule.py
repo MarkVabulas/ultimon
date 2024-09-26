@@ -30,9 +30,9 @@ async def delay(coro, seconds):
 async def cors_middleware(request, handler) -> web.StreamResponse:
 	try:
 		response = await handler(request)
-		response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
-		response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
-		response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
+	#	response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+	#	response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
+	#	response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
 		return response
 	except:
 		return web.StreamResponse()
@@ -45,9 +45,12 @@ class ServerModule:
 				'connect': self.handle_connection
 			}
 
+			index_filename = f'{settings.source}.html'
+			logger.info(f'Serving {index_filename} when requesting root directory')
+
 			self.settings = settings
 			self.web_socket_client_manager = WebSocketClientManager()
-			middlewares_list = [IndexMiddleware(), cors_middleware]
+			middlewares_list = [IndexMiddleware(index=index_filename), cors_middleware]
 			self.app = web.Application(middlewares=middlewares_list)
 
 			self.should_update_users = False
@@ -67,7 +70,7 @@ class ServerModule:
 			# Create route to get iceservers
 			self.app.add_routes([ web.get('/sensor_data', self.web_socket_handler) ])
 			if hasattr(self.settings, 'static_folder') and self.settings.static_folder is not None and self.settings.static_folder.is_dir():
-				self.app.router.add_static('/', path=str(self.settings.static_folder))
+				self.app.router.add_static('/', path=str(self.settings.static_folder), append_version=True)
 			
 			# Configure CORS on all routes.
 			for route in list(self.app.router.routes()):
@@ -115,14 +118,14 @@ class ServerModule:
 			
 	async def web_socket_handler(self, request):
 		ws = web.WebSocketResponse()
-		await ws.prepare(request)
-
-		client_id = await self.web_socket_client_manager.add_ws(ws)
-		logger.info('connect %s', client_id)
-		self._asyncio_context = asyncio.get_running_loop()
-		asyncio.create_task(self.web_socket_ping_task(ws))
-
 		try:
+			await ws.prepare(request)
+
+			client_id = await self.web_socket_client_manager.add_ws(ws)
+			logger.info('connect %s', client_id)
+			self._asyncio_context = asyncio.get_running_loop()
+			asyncio.create_task(self.web_socket_ping_task(ws))
+
 			async for msg in ws:
 				if msg.type == WSMsgType.TEXT:
 					try:

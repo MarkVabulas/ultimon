@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-import os, signal, sys, time
+import os, signal, sys, time, traceback
 my_path = os.path.dirname(os.path.realpath(__file__))
 os.add_dll_directory(my_path)
 sys.path.append(my_path)
@@ -35,7 +35,7 @@ def webserver_main(server : ServerModule):
 	except:
 		os._exit(0)
 	
-class StaticIndexWatchdog(FileSystemEventHandler):
+class StaticFileWatchdog(FileSystemEventHandler):
 	def __init__(self):
 		self.need_suggest_refresh = False
 	
@@ -98,13 +98,13 @@ async def main():
 	just_incremented : bool = False
 	full_update : int = 0
 
-	watchdog : StaticIndexWatchdog  = StaticIndexWatchdog()
+	watchdog : StaticFileWatchdog  = StaticFileWatchdog()
 	
 	if server is not None:
 		if server_settings.static_folder is not None and server_settings.static_folder != '':
-			logger.info(f'Watching file for changes: {str(server_settings.static_folder)}\\index.html')
+			logger.info(f'Watching directory for changes: {str(server_settings.static_folder)}')
 			observer = PollingObserver()
-			observer.schedule(watchdog, str(server_settings.static_folder)+'\\index.html', recursive=False)
+			observer.schedule(watchdog, str(server_settings.static_folder), recursive=False)
 			observer.start()
 			logger.info(f'observing: {str(observer.is_alive())}')
 
@@ -161,6 +161,7 @@ async def main():
 	signal.raise_signal(signal.SIGTERM)
 
 if __name__ == '__main__':
+
 	# Set logging level
 	logger.setLevel(10)
 
@@ -172,10 +173,15 @@ if __name__ == '__main__':
 		loop.run_until_complete(main())
 	except KeyboardInterrupt:
 		try:
+			logger.info('quitting...')
 			signal.raise_signal(signal.SIGTERM)
 			sys.exit(0)
 		except SystemExit:
+			logger.info('quitting... (SystemExit)')
 			os._exit(0)
-	except:
+	except Exception as ex:
+		logger.info('An exception of type {0} occurred. Arguments:\n\t{1!r}'.format(type(ex).__name__, ex.args))
+		logger.info('Traceback: ' + traceback.format_exc())
+		logger.info('quitting... (catastrophic error)')
 		os._exit(0)
 

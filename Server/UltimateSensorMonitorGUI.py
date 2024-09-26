@@ -283,7 +283,7 @@ class BuildSoftware(DefaultPanel):
 				f'mkdir root_deploy_static',
 				f'npm install',
 				f'npm run release',
-				f'copy root_client_dist\\index.html root_deploy_static'
+				f'xcopy /f /s /y /i root_client_dist root_deploy_static'
 			]
 
 			for index, command in enumerate(commands):
