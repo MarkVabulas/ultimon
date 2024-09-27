@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<meta name="viewport" content="width=device-width" />
+		<link href="./values.css" rel="stylesheet" />
+	</head>
+	<body>
+		<p>
+			<h2>Items of note:</h2>
+			<ul>
+			<li>The data in this chart will refresh from scratch any time a new value comes in that we haven't seen yet.  </li>
+			<li>The "values" shown are only the values of the first iteration, so we aren't constantly having to try to update them (I'm lazy at writing this page)</li>
+			<li>The name that the "id" will look for on the stats page is the first one under root, for example "FGPU1", etc.</li>
+			<li>The "value" field is the value as it will be displayed on the final sensor page.  In some cases, or with custom visualizations, we can have factors or special renderers, so these values will be abstracted.</li>
+			</ul>
+		</p>
+		<br /><br />
+		<div id="tree"></div>
+
+		<script src="./values.js" defer="defer"></script>
+	</body>
+</html>

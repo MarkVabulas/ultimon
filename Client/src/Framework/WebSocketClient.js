@@ -12,6 +12,13 @@ function _eventToMessage(event, data) {
 }
 
 class WebSocketClient {
+  _onConnectionOpen;
+  _onConnectionClose;
+  _onConnectionError;
+  
+  _onSensorDataChange;
+  _onUserDataChange;
+
   constructor(serverConfig) {
     this._serverConfig = serverConfig;
 
@@ -172,18 +179,25 @@ $(function() {
     window.location = window.location.href;
   }
   sensorClient.onSensorDataChange = (data) => {
-    //console.log('onSensorDataChange data = ' + data);
 
-    for (const [id, item_data] of Object.entries(data)) {
-      //console.log(`${id} : ${JSON.stringify(item_data)}`); // Log the key and its corresponding value
+    try {
+      //console.log('onSensorDataChange data = ' + data);
 
-      var exact_matches = $('#' + id);
-      if (exact_matches.length > 0) {
-        exact_matches.trigger('data_update', item_data);
-      } else {
-        const duplicated_matches = `[id*="${id}"]`;
-        $(duplicated_matches).trigger('data_update', item_data);
+      $('body').trigger('data_update_full', data);
+
+      for (const [id, item_data] of Object.entries(data)) {
+        //console.log(`${id} : ${JSON.stringify(item_data)}`); // Log the key and its corresponding value
+
+        var exact_matches = $('#' + id);
+        if (exact_matches.length > 0) {
+          exact_matches.trigger('data_update', item_data);
+        } else {
+          const duplicated_matches = `[id*="${id}"]`;
+          $(duplicated_matches).trigger('data_update', item_data);
+        }
       }
+    } catch (ex) {
+      console.error('onSensorDataChange error: ', ex.stack);
     }
   };
   sensorClient.onUserDataChange = (data) => {
